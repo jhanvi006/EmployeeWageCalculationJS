@@ -4,17 +4,21 @@ const PART_TIME_HOURS = 4;
 const FULL_TIME_HOURS = 8;
 const WAGE_PR_HOUR = 20;
 
+function workingHrs(empCheck){
+    switch(empCheck){
+        case IS_PART_TIME:
+            empHrs = PART_TIME_HOURS;
+            break;
+        case IS_FULL_Time:
+            empHrs = FULL_TIME_HOURS;
+            break;
+        default:
+            empHrs = 0;
+    }
+    return empHrs;
+}
 let empHrs = 0;
 let empCheck = Math.floor(Math.random() * 10)%3;
-switch(empCheck){
-    case IS_PART_TIME:
-        empHrs = PART_TIME_HOURS;
-        break;
-    case IS_FULL_Time:
-        empHrs = FULL_TIME_HOURS;
-        break;
-    default:
-        empHrs = 0;
-}
+empHrs = workingHrs(empCheck);
 let empWage = empHrs * WAGE_PR_HOUR;
 console.log("Employee wage: "+empWage);
