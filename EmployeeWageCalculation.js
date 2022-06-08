@@ -6,7 +6,8 @@ const WAGE_PR_HOUR = 20;
 const NUM_OF_WORKING_DAYS = 20;
 const MAX_HRS_IN_MONTH = 160;
 
-let totalEmpHrs = 0, totalWorkingDays = 0;
+let totalEmpHrs = 0, totalWorkingDays = 0, totalEmpWage = 0, day = 0;
+let mapDayWithWage;
 let empDailyWageArray = [];
 function workingHrs(empCheck){
     switch(empCheck){
@@ -24,6 +25,13 @@ function workingHrs(empCheck){
 function calculateDailyWage(empHrs){
     return empHrs*WAGE_PR_HOUR;
 }
+function calculateTotalWage(dailyWage){
+    totalEmpWage += dailyWage;
+}
+function mapDayWithDailyWage(dailyWage){
+    day++;
+    return day+"=>"+dailyWage;
+}
 while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS){
     totalWorkingDays++;
     let empCheck = Math.floor(Math.random() * 10)%3;
@@ -31,7 +39,20 @@ while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS)
     totalEmpHrs += empHrs;
     empDailyWageArray.push(calculateDailyWage(empHrs));
 }
-let TotalEmpWage = calculateDailyWage(totalEmpHrs);
-console.log("Daily wage: "+empDailyWageArray);
+empDailyWageArray.forEach(calculateTotalWage);
+mapDayWithWage = empDailyWageArray.map(mapDayWithDailyWage);
+console.log("Daily wage: \n"+mapDayWithWage);
 console.log("Total working days: "+totalWorkingDays+"\nTotal working hrs: "+
-            totalEmpHrs+"\nTotal wage: "+TotalEmpWage);
+            totalEmpHrs+"\nTotal wage: "+totalEmpWage);
+let empWithFullTime = mapDayWithWage.filter(day => day.includes("160"));
+console.log("Emp with full time wage on days: "+empWithFullTime);
+console.log("First time FullTime wage was earned on: "+mapDayWithWage.find(day => day.includes("160")));
+console.log("Check if all elements have full time wage: "+empWithFullTime.every(wage => wage.includes("160")));
+console.log("Check if there is any part time wage: "+mapDayWithWage.some(wage => wage.includes("80")));
+let totalDaysWorked = 0;
+totalDaysWorked = empDailyWageArray.reduce((totalDaysWork, dailyWage) => {
+    if(dailyWage > 0)
+        totalDaysWork++;
+    return totalDaysWork;
+});
+console.log("No. of days employee worked: "+ totalDaysWorked);
