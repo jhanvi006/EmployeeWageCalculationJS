@@ -64,5 +64,5 @@ totalDaysWorked = empDailyWageArray.reduce((totalDaysWork, dailyWage) => {
     if(dailyWage > 0)
         totalDaysWork++;
     return totalDaysWork;
-});
+}, 0);
 console.log("No. of days employee worked: "+ totalDaysWorked); 
