@@ -57,7 +57,7 @@ while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS)
         },
     });
 }
-//-------------------- array helper functions
+//-------------------- array helper functions --------------
 empDailyWageArray.forEach(calculateTotalWage);
 mapDayWithWage = empDailyWageArray.map(mapDayWithDailyWage);
 let totalWageUsingMap = Array.from(empDailyWageMap.values()).reduce(totalWages, 0);
@@ -103,3 +103,24 @@ console.log("No working days: "+nonWorkingDays);
 
 //----------------- print Objects -----------
 console.log("Daily hours and daily wages: "+empDailyHrsAndWageArray);
+
+//--------------- Arrow Function on object ------------
+let empTotalWage = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage>0)
+                                        .reduce((totalWage, dailyHrsAndWage) => 
+                                        totalWage += dailyHrsAndWage.dailyWage, 0);
+let empTotalHrs = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours>0)
+                                        .reduce((totalHrs, dailyHrsAndWage) => 
+                                        totalHrs += dailyHrsAndWage.dailyHours, 0);
+console.log("Total Hours : " + empTotalHrs +", Total Wages : " + empTotalWage);      
+
+process.stdout.write("Full Works Days: ");
+empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 8)
+                        .forEach(dailyHrsAndWage => process.stdout.write(dailyHrsAndWage.toString()));
+
+let partWorkingDayArr = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 4)
+                        .map(dailyHrsAndWage => dailyHrsAndWage.toString());
+console.log("\nPart-tome Working Days: "+partWorkingDayArr);
+
+let nonWorkingDayNums = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 0)
+                     .map(dailyHrsAndWage => dailyHrsAndWage.dayNum);
+console.log("Non Working Days: "+nonWorkingDayNums);
